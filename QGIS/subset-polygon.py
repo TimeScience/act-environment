@@ -1,6 +1,7 @@
 """
 Code for subsetting a large polygon into smaller areas
-This is intended to be used to subset a large area like the ACT into sub-sections that can then be downloaded and proceesed using the main.sh scripts in https://github.com/johnburley3000/PaddockTS/
+This is intended to be used to subset a large area like the ACT into sub-sections that can then be 
+\downloaded and processed using the main.sh scripts in https://github.com/johnburley3000/PaddockTS/
 
 Steps to use:
 1. In QGIS, create a new square polygon layer as a geopackage:
@@ -29,8 +30,8 @@ Steps to use:
       - Since the main.sh code just takes a lat/long and angualr "buffer" variable, this code takes the number of columns 
         you want and uses that to calculate the buffer size for cells of that width. This buffer is then used to calculate the 
         height of each cell and the large geomtry is broken into this many rows and columns.
-      - Once this is complete, if you select any of the new cells in the new layer, the info box will provide 
-        the center point lat/long as and "buffer" values which you can paste into main.sh
+      - Once this is complete, if you select any of the new cells in the new layer, the NOTES field has correctly formatted 
+      center point lat/long and "buffer" values which you can paste into main.sh
 
 NOTES:
   * If you make changes to the script by directly editing it in QGIS, these often don't propagate to script in the toolbox, 
@@ -176,6 +177,9 @@ class BoundingBoxDivider(QgsProcessingAlgorithm):
                     # Create feature
                     feature = QgsFeature(fields)
                     feature.setGeometry(geometry)
+                    lat=round(center_y, 6)
+                    lon=round(center_x, 6)
+                    buffer=round(buffer,4)
 
                     # Create attributes dictionary
                     attrs = {
@@ -183,10 +187,10 @@ class BoundingBoxDivider(QgsProcessingAlgorithm):
                         'cell_name': cell_name,
                         'row': row + 1,
                         'col': col + 1,
-                        'center_lat': round(center_y, 6),
-                        'center_lon': round(center_x, 6),
-                        'buffer': round(buffer, 6),
-                        'notes': ""
+                        'center_lat': lat,
+                        'center_lon': lon,
+                        'buffer': buffer,
+                        'notes': f"lat={lat}\nlon={lon}\nbuffer={buffer}"
                     }
 
                     # Map attributes to field indices
