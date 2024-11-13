@@ -190,7 +190,7 @@ class BoundingBoxDivider(QgsProcessingAlgorithm):
                         'center_lat': lat,
                         'center_lon': lon,
                         'buffer': buffer,
-                        'notes': f"lat={lat}\nlon={lon}\nbuffer={buffer}"
+                        'notes': f"stub={cell_name}\nlat={lat}\nlon={lon}\nbuffer={buffer}"
                     }
 
                     # Map attributes to field indices
